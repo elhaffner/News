@@ -18,6 +18,7 @@ function Map() {
     const [areaOutput, setAreaOutput] = useState("");
     const [currencyOutput, setCurrencyOutput] = useState("");
     const [languagesOutput, setLanguagesOutput] = useState("");
+    const [newsOutput, setNewsOutput] = useState("");
 
 
     const mapReference = useRef();
@@ -102,6 +103,15 @@ function Map() {
             setAreaOutput(formatedNumber);
             setCurrencyOutput(data[0].currencies[0]);
             setLanguagesOutput(data[0].languages[0]);
+
+            if (clickedCountryName =="Burundi") {
+                fetch("/Burundi").then(response => {
+                    return response.text();
+                }).then(data => {
+                    console.log(data);
+                    setNewsOutput(data);
+                });
+            }
         }).catch(error => {
             console.error("There was a problem with the fetch operation: ", error);
         });
@@ -1091,6 +1101,11 @@ function Map() {
                         <span className="languages">{languagesOutput}</span>
                     </li>        
                 </ul>
+
+                <p className="news">
+                    <b>Daily News:</b><br/>
+                    {newsOutput}
+                </p>
             </div>
             <button className="close-btn" onClick={handleClosePanel}>
                 <i className="fas fa-times"></i>
