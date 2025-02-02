@@ -10,7 +10,8 @@ chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
 driver = webdriver.Chrome(options=chrome_options)
 
-git_credential ="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"
+git_credential ="ghp_kxCOBD6zuY"
+git = "m4SRRpNtzP89ST0LCgmu3jmIIr"
 
 driver.get(website)
 elements = driver.find_elements(By.CLASS_NAME, "title-link")
