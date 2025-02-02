@@ -103,19 +103,17 @@ function Map() {
             setAreaOutput(formatedNumber);
             setCurrencyOutput(data[0].currencies[0]);
             setLanguagesOutput(data[0].languages[0]);
-
-            if (clickedCountryName =="Burundi") {
-                fetch("/Burundi").then(response => {
-                    return response.text();
-                }).then(data => {
-                    console.log(data);
-                    setNewsOutput(data);
-                });
-            }
-        }).catch(error => {
-            console.error("There was a problem with the fetch operation: ", error);
         });
-    }   
+
+        if (clickedCountryName =="Burundi" || clickedCountryName == "Algeria") {
+            fetch("/" + clickedCountryName).then(response => {
+                return response.text();
+            }).then(data => {
+                console.log(data);
+                setNewsOutput(data);
+            });
+        }
+    } 
 
     function handleClosePanel() {
         setLeftPanel("-30em")

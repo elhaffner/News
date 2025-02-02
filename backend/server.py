@@ -1,11 +1,19 @@
 from flask import Flask
 import google.generativeai as genai
-from bs4 import BeautifulSoup
-import requests
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+from countries.Burundi import getBurundi
+from countries.Algeria import getAlgeria
 
 
 app = Flask(__name__)
 API_KEY = "AIzaSyAZ_y74Vwb453PU4VKuooxpwlhbB0uEL7o"
+chrome_options = Options()
+chrome_options.add_argument("--headless=new")
+chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
+driver = webdriver.Chrome(options=chrome_options)
 
 
 
@@ -22,28 +30,11 @@ def summarise(text):
 #Members API route
 @app.route("/Burundi")
 def Burundi():
-    api_key = "AIzaSyAZ_y74Vwb453PU4VKuooxpwlhbB0uEL7o"
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101 Firefox/97.0'
-    }
-    url = "https://www.iwacu-burundi.org/englishnews/"
-    result = requests.get(url, headers=headers)
-    doc = BeautifulSoup(result.text, "html.parser")
-    title_link = {}
-    for element in doc.find_all(class_="title_loop_home"):
-        title = element.find("a")['title']
-        href = element.find("a")['href']
-        article = ""
-        for paragraph in BeautifulSoup(requests.get(href, headers=headers).text, "html.parser").find(class_="article").find_all("p"):
-            article += paragraph.get_text()
-        
-        title_link[title] = article
+    return summarise(getBurundi())
 
-    text = ""
-    for title in title_link.keys():
-        text += "New article: " + title_link[title]
-
-    return summarise(text)
+@app.route("/Algeria")
+def Algeria():
+    return summarise(getAlgeria(driver=driver))
 
 if __name__ == "__main__":
     app.run(debug=True)
