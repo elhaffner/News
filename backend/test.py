@@ -1,27 +1,52 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import undetected_chromedriver as uc
 import time
-website = 'https://www.elkhabar.com/press/category/223/'
 
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+# chrome_options.add_argument('--ignore-ssl-errors=yes')
+# chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
 driver = webdriver.Chrome(options=chrome_options)
 
-
-driver.get(website)
-elements = driver.find_elements(By.CLASS_NAME, "title-link")
-title_links = {}
+WEBSITE = "https://www.ultimahora.com/"
+driver.get(WEBSITE)
+#print(driver.page_source)
+elements = driver.find_elements(By.XPATH, "//div[@class='PageListStandardH'][1]//div[contains(@class, 'PagePromo-title')]//a")
+print(len(elements))
+articles = []
 for element in elements:
-    title_links[element.get_attribute("href")] = element
+    articles.append(element.get_attribute("href"))
+    print(element.get_attribute("href"))
 
-#print(title_links)
-article_text = []
-for articles in title_links.keys():
-    driver.get(articles)
-    article_text.append(driver.find_element(By.XPATH, '//div[@id="article_body_content"]').get_attribute("textContent"))
+article_text = ""
+for article in articles:
+    driver.get(article)
+    paragraphs = driver.find_elements(By.XPATH, "//div[contains(@class, 'Page-articleBody')]//p")
+    print(len(paragraphs))
+    for p in paragraphs:
+        print(p.get_attribute("textContent"))
+        article_text += p.get_attribute("textContent")
 
 
-
+# WEBSITE = "https://www.pyongyangtimes.com.kp/"
+# driver.get(WEBSITE)
+# elements = driver.find_elements(By.XPATH, "//div[@class='d-flex']//h3[@class='title']")
+# article_text = ""
+# for i in range(len(elements)):
+#     driver.get(WEBSITE)
+#     elements = driver.find_elements(By.XPATH, "//div[@class='d-flex']//h3[@class='title']")
+#     ActionChains(driver).move_to_element(elements[i]).click().perform()
+#     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='content']//p")))
+#     paragraphs = driver.find_elements(By.XPATH, "//div[@class='content']//p")
+#     print(len(paragraphs))
+#     for paragraph in paragraphs:
+#         article_text += paragraph.get_attribute("textContent")
+    
+    

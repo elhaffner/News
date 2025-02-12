@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useRef, useState, useEffect } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 import '../../styling/Map.css';
 
 function Map() {
@@ -15,9 +16,6 @@ function Map() {
     const [countryNameOutput, setCountryNameOutput] = useState("");
     const [countryFlagOutput, setCountryFlagOutput] = useState("./flag.png");
     const [cityOutput, setCityOutput] = useState("");
-    const [areaOutput, setAreaOutput] = useState("");
-    const [currencyOutput, setCurrencyOutput] = useState("");
-    const [languagesOutput, setLanguagesOutput] = useState("");
     const [newsOutput, setNewsOutput] = useState("");
 
 
@@ -99,20 +97,15 @@ function Map() {
             setCountryNameOutput(data[0].name.common);
             setCountryFlagOutput(data[0].flags.png);
             setCityOutput(data[0].capital);
-            const formatedNumber = data[0].area.toLocaleString('de-DE');
-            setAreaOutput(formatedNumber);
-            setCurrencyOutput(data[0].currencies[0]);
-            setLanguagesOutput(data[0].languages[0]);
         });
 
-        if (clickedCountryName =="Burundi" || clickedCountryName == "Algeria") {
-            fetch("/" + clickedCountryName).then(response => {
-                return response.text();
-            }).then(data => {
-                console.log(data);
-                setNewsOutput(data);
-            });
-        }
+        fetch("/" + clickedCountryName).then(response => {
+            return response.text();
+        }).then(data => {
+            console.log(data);
+            setNewsOutput(data);
+        });
+
     } 
 
     function handleClosePanel() {
@@ -124,7 +117,6 @@ function Map() {
     <>
         <div className="world-map">
             <div className='map-container'>
-            
                 <svg ref={mapReference} baseProfile="tiny" fill="#ececec" height="857" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth=".2" version="1.2" viewBox="0 0 2000 857" width="2000" xmlns="http://www.w3.org/2000/svg">
                 <path onClick={(e) => handleClick(e.target)} onMouseLeave={(e) => handleMouseLeave(e.target)} onMouseEnter={(e) => handleMouseEnter(e.target)} d="M1383 261.6l1.5 1.8-2.9 0.8-2.4 1.1-5.9 0.8-5.3 1.3-2.4 2.8 1.9 2.7 1.4 3.2-2 2.7 0.8 2.5-0.9 2.3-5.2-0.2 3.1 4.2-3.1 1.7-1.4 3.8 1.1 3.9-1.8 1.8-2.1-0.6-4 0.9-0.2 1.7-4.1 0-2.3 3.7 0.8 5.4-6.6 2.7-3.9-0.6-0.9 1.4-3.4-0.8-5.3 1-9.6-3.3 3.9-5.8-1.1-4.1-4.3-1.1-1.2-4.1-2.7-5.1 1.6-3.5-2.5-1 0.5-4.7 0.6-8 5.9 2.5 3.9-0.9 0.4-2.9 4-0.9 2.6-2-0.2-5.1 4.2-1.3 0.3-2.2 2.9 1.7 1.6 0.2 3 0 4.3 1.4 1.8 0.7 3.4-2 2.1 1.2 0.9-2.9 3.2 0.1 0.6-0.9-0.2-2.6 1.7-2.2 3.3 1.4-0.1 2 1.7 0.3 0.9 5.4 2.7 2.1 1.5-1.4 2.2-0.6 2.5-2.9 3.8 0.5 5.4 0z" id="AF" name="Afghanistan">
                 </path>
@@ -1086,18 +1078,6 @@ function Map() {
                         <strong>Capital City:</strong>
                         <span className="city">{cityOutput}</span>
                     </li>
-                    <li>
-                        <strong>Area:</strong>
-                        <span className="area">{areaOutput}</span>
-                    </li>
-                    <li>
-                        <strong>Currencies:</strong>
-                        <span className="currency">{currencyOutput}</span>
-                    </li>
-                    <li>
-                        <strong>Languages:</strong>
-                        <span className="languages">{languagesOutput}</span>
-                    </li>        
                 </ul>
 
                 <p className="news">
@@ -1106,7 +1086,7 @@ function Map() {
                 </p>
             </div>
             <button className="close-btn" onClick={handleClosePanel}>
-                <i className="fas fa-times"></i>
+                <CloseIcon />
             </button>
         </div>
         <div className="zoom-controls">

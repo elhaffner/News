@@ -1,28 +1,21 @@
-from bs4 import BeautifulSoup
-import requests
-import google.generativeai as genai
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 
-def getBurundi():
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101 Firefox/97.0'
-    }
-    url = "https://www.iwacu-burundi.org/englishnews/"
-    result = requests.get(url, headers=headers)
-    doc = BeautifulSoup(result.text, "html.parser")
-    title_link = {}
-    for element in doc.find_all(class_="title_loop_home"):
-        title = element.find("a")['title']
-        href = element.find("a")['href']
-        article = ""
-        for paragraph in BeautifulSoup(requests.get(href, headers=headers).text, "html.parser").find(class_="article").find_all("p"):
-            article += paragraph.get_text()
-        
-        title_link[title] = article
+WEBSITE = "https://www.iwacu-burundi.org/"
+def getBurundi(driver):
+    driver.get(WEBSITE)
+    elements = driver.find_elements(By.XPATH, "//div[@id='homeslide']//div[@class='titraille']//h2//a")
+    articles = []
+    for element in elements:
+        articles.append(element.get_attribute("href"))
 
-    text = ""
-    for title in title_link.keys():
-        text += "New article: " + title_link[title]
-
-    return text
+    article_text = ""
+    for article in articles:
+        driver.get(article)
+        paragraphs = driver.find_elements(By.XPATH, "//article//p")
+        for p in paragraphs:
+            article_text += p.get_attribute("textContent")
+    return article_text
 

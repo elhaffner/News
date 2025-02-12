@@ -34,7 +34,7 @@ body {
     align-items: center;
 }
 
-svg {
+.map-container svg {
     width: 100vw;
     height: 100vh;
 }
@@ -94,7 +94,7 @@ path:hover {
     transition: 200ms;
 }
 
-.close-btn i {
+.close-btn svg {
     font-size: 2em;
 }
 
