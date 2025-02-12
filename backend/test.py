@@ -15,10 +15,10 @@ chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
 driver = webdriver.Chrome(options=chrome_options)
 
-WEBSITE = "https://www.ultimahora.com/"
+WEBSITE = "https://lankanewsweb.net/archives/category/news/"
 driver.get(WEBSITE)
 #print(driver.page_source)
-elements = driver.find_elements(By.XPATH, "//div[@class='PageListStandardH'][1]//div[contains(@class, 'PagePromo-title')]//a")
+elements = driver.find_elements(By.XPATH, "//div[@id='tdi_89']//div[contains(@class, 'td-cpt-post')]//p//a")
 print(len(elements))
 articles = []
 for element in elements:
@@ -28,11 +28,15 @@ for element in elements:
 article_text = ""
 for article in articles:
     driver.get(article)
-    paragraphs = driver.find_elements(By.XPATH, "//div[contains(@class, 'Page-articleBody')]//p")
+    paragraphs = driver.find_elements(By.XPATH, "//div[contains(@class, 'tdb-block-inner')]//p")
     print(len(paragraphs))
     for p in paragraphs:
-        print(p.get_attribute("textContent"))
-        article_text += p.get_attribute("textContent")
+        try:
+            article_text += p.get_attribute("textContent")
+            print(p.get_attribute("textContent"))
+        except:
+            pass
+        
 
 
 # WEBSITE = "https://www.pyongyangtimes.com.kp/"

@@ -15,7 +15,10 @@ def getGeneralCountry(driver, website, articlePath, paragraphPath):
         driver.get(article)
         paragraphs = driver.find_elements(By.XPATH, paragraphPath)
         for p in paragraphs:
-            article_text += p.get_attribute("textContent")
+            try:
+                article_text += p.get_attribute("textContent")
+            except:
+                pass
     return article_text
 
 
