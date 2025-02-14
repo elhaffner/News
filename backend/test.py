@@ -14,11 +14,14 @@ chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 # chrome_options.add_argument('--ignore-certificate-errors')
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
 driver = webdriver.Chrome(options=chrome_options)
+driver.implicitly_wait(10)
 
-WEBSITE = "https://lankanewsweb.net/archives/category/news/"
+country = "Uganda"
+WEBSITE = "https://www.monitor.co.ug/"
 driver.get(WEBSITE)
 #print(driver.page_source)
-elements = driver.find_elements(By.XPATH, "//div[@id='tdi_89']//div[contains(@class, 'td-cpt-post')]//p//a")
+articlePath = "(//ol[@class='nested-cols'])[1]//li[contains(@class, 'headline-teasers_item')]//a"
+elements = driver.find_elements(By.XPATH, articlePath)
 print(len(elements))
 articles = []
 for element in elements:
@@ -27,8 +30,11 @@ for element in elements:
 
 article_text = ""
 for article in articles:
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(article)
-    paragraphs = driver.find_elements(By.XPATH, "//div[contains(@class, 'tdb-block-inner')]//p")
+    #print(driver.page_source)
+    paragraphPath = "//div[@class='text-block blk-txt']//p"
+    paragraphs = driver.find_elements(By.XPATH, paragraphPath)
     print(len(paragraphs))
     for p in paragraphs:
         try:
@@ -36,7 +42,14 @@ for article in articles:
             print(p.get_attribute("textContent"))
         except:
             pass
-        
+print(
+    '@app.route("/' + country + '")\n'
+    "def " + country + "():\n"
+    '\twebsite = "' + WEBSITE + '"\n'
+    '\tarticlePath = "' + articlePath + '"\n'
+    '\tparagraphPath = "' + paragraphPath + '"\n'
+    "\treturn summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))"
+)
 
 
 # WEBSITE = "https://www.pyongyangtimes.com.kp/"
