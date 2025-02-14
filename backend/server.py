@@ -71,6 +71,13 @@ def Andorra():
     paragraphPath = "//div[contains(@class, 'c-detail-content')]//p"
     return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Belize")
+def Belize():
+        website = "https://amandala.com.bz/news/"
+        articlePath = "(//div[contains(@class, 'vc_row tdi_75  wpb_row td-pb-row tdc-element-style')])[1]//h3//a"
+        paragraphPath = "//div[contains(@class, 'tdb-block-inner')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Bolivia")
 def Bolivia():
     return summarise(getBolivia(driver=driver))
@@ -169,6 +176,13 @@ def Gabon():
     paragraphPath = "//div[contains(@class, 'blog-excerpt')]/p"
     return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Georgia")
+def Georgia():
+        website = "https://georgiatoday.ge/"
+        articlePath = "(//h3[contains(@class, 'jeg_post_title')]//a)[position() <= 3]"
+        paragraphPath = "//div[contains(@class, 'content-inner')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Germany")
 def Germany():
     website = "https://www.dw.com/en/germany/s-1432"
@@ -179,6 +193,13 @@ def Germany():
 @app.route("/Ghana")
 def Ghana():
     return summarise(getGhana())
+
+@app.route("/Honduras")
+def Honduras():
+        website = "https://www.laprensa.hn/honduras"
+        articlePath = "//div[@id='nota-b']//div[@class='card-title title']//a | (//section[@class='noticias'])[1]//div[@class='card-title title']//a"
+        paragraphPath = "//div[contains(@class, 'text')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Ireland")
 def Ireland():

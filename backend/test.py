@@ -16,11 +16,11 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 driver = webdriver.Chrome(options=chrome_options)
 driver.implicitly_wait(10)
 
-country = "Uganda"
-WEBSITE = "https://www.monitor.co.ug/"
+country = "Honduras"
+WEBSITE = "https://www.laprensa.hn/honduras"
 driver.get(WEBSITE)
 #print(driver.page_source)
-articlePath = "(//ol[@class='nested-cols'])[1]//li[contains(@class, 'headline-teasers_item')]//a"
+articlePath = "//div[@id='nota-b']//div[@class='card-title title']//a | (//section[@class='noticias'])[1]//div[@class='card-title title']//a"
 elements = driver.find_elements(By.XPATH, articlePath)
 print(len(elements))
 articles = []
@@ -28,28 +28,27 @@ for element in elements:
     articles.append(element.get_attribute("href"))
     print(element.get_attribute("href"))
 
-article_text = ""
-for article in articles:
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(article)
-    #print(driver.page_source)
-    paragraphPath = "//div[@class='text-block blk-txt']//p"
-    paragraphs = driver.find_elements(By.XPATH, paragraphPath)
-    print(len(paragraphs))
-    for p in paragraphs:
-        try:
-            article_text += p.get_attribute("textContent")
-            print(p.get_attribute("textContent"))
-        except:
-            pass
-print(
-    '@app.route("/' + country + '")\n'
-    "def " + country + "():\n"
-    '\twebsite = "' + WEBSITE + '"\n'
-    '\tarticlePath = "' + articlePath + '"\n'
-    '\tparagraphPath = "' + paragraphPath + '"\n'
-    "\treturn summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))"
-)
+# article_text = ""
+# for article in articles:
+#     driver.get(article)
+#     #print(driver.page_source)
+#     paragraphPath = "//div[contains(@class, 'text')]//p"
+#     paragraphs = driver.find_elements(By.XPATH, paragraphPath)
+#     print(len(paragraphs))
+#     for p in paragraphs:
+#         try:
+#             article_text += p.get_attribute("textContent")
+#             #print(p.get_attribute("textContent"))
+#         except:
+#             pass
+# print(
+#     '@app.route("/' + country + '")\n'
+#     "def " + country + "():\n"
+#     '\twebsite = "' + WEBSITE + '"\n'
+#     '\tarticlePath = "' + articlePath + '"\n'
+#     '\tparagraphPath = "' + paragraphPath + '"\n'
+#     "\treturn summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))"
+# )
 
 
 # WEBSITE = "https://www.pyongyangtimes.com.kp/"
