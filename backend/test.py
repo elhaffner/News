@@ -16,11 +16,11 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 driver = webdriver.Chrome(options=chrome_options)
 driver.implicitly_wait(10)
 
-country = "Honduras"
-WEBSITE = "https://www.laprensa.hn/honduras"
+country = "Seychelles"
+WEBSITE = "https://www.nation.sc/"
 driver.get(WEBSITE)
 #print(driver.page_source)
-articlePath = "//div[@id='nota-b']//div[@class='card-title title']//a | (//section[@class='noticias'])[1]//div[@class='card-title title']//a"
+articlePath = "//div[@class='topnews']//h1//a | (//div[contains(@class, 'article_list')])[1]//article//h1//a"
 elements = driver.find_elements(By.XPATH, articlePath)
 print(len(elements))
 articles = []
@@ -28,41 +28,25 @@ for element in elements:
     articles.append(element.get_attribute("href"))
     print(element.get_attribute("href"))
 
-# article_text = ""
-# for article in articles:
-#     driver.get(article)
-#     #print(driver.page_source)
-#     paragraphPath = "//div[contains(@class, 'text')]//p"
-#     paragraphs = driver.find_elements(By.XPATH, paragraphPath)
-#     print(len(paragraphs))
-#     for p in paragraphs:
-#         try:
-#             article_text += p.get_attribute("textContent")
-#             #print(p.get_attribute("textContent"))
-#         except:
-#             pass
-# print(
-#     '@app.route("/' + country + '")\n'
-#     "def " + country + "():\n"
-#     '\twebsite = "' + WEBSITE + '"\n'
-#     '\tarticlePath = "' + articlePath + '"\n'
-#     '\tparagraphPath = "' + paragraphPath + '"\n'
-#     "\treturn summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))"
-# )
-
-
-# WEBSITE = "https://www.pyongyangtimes.com.kp/"
-# driver.get(WEBSITE)
-# elements = driver.find_elements(By.XPATH, "//div[@class='d-flex']//h3[@class='title']")
-# article_text = ""
-# for i in range(len(elements)):
-#     driver.get(WEBSITE)
-#     elements = driver.find_elements(By.XPATH, "//div[@class='d-flex']//h3[@class='title']")
-#     ActionChains(driver).move_to_element(elements[i]).click().perform()
-#     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='content']//p")))
-#     paragraphs = driver.find_elements(By.XPATH, "//div[@class='content']//p")
-#     print(len(paragraphs))
-#     for paragraph in paragraphs:
-#         article_text += paragraph.get_attribute("textContent")
-    
-    
+article_text = ""
+for article in articles:
+    #driver = webdriver.Chrome(options=chrome_options)
+    driver.get(article)
+    #print(driver.page_source)
+    paragraphPath = "//article//p"
+    paragraphs = driver.find_elements(By.XPATH, paragraphPath)
+    print(len(paragraphs))
+    for p in paragraphs:
+        try:
+            article_text += p.get_attribute("textContent")
+            #print(p.get_attribute("textContent"))
+        except:
+            pass
+print(
+    '@app.route("/' + country + '")\n'
+    "def " + country + "():\n"
+    '\twebsite = "' + WEBSITE + '"\n'
+    '\tarticlePath = "' + articlePath + '"\n'
+    '\tparagraphPath = "' + paragraphPath + '"\n'
+    "\treturn summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))"
+)
