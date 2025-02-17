@@ -16,11 +16,11 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 driver = webdriver.Chrome(options=chrome_options)
 driver.implicitly_wait(10)
 
-country = "Seychelles"
-WEBSITE = "https://www.nation.sc/"
+country = "Togo"
+WEBSITE = "https://www.togofirst.com/en"
 driver.get(WEBSITE)
 #print(driver.page_source)
-articlePath = "//div[@class='topnews']//h1//a | (//div[contains(@class, 'article_list')])[1]//article//h1//a"
+articlePath = "//div[@class='sppb-column-addons']//div[@id='sppb-addon-1514541741787']//div[@class='aidanews2_k2_title']//a | //div[@class='sppb-column-addons']//div[@id='sppb-addon-1514496612040']//div[@class='aidanews2_k2_title']//a"
 elements = driver.find_elements(By.XPATH, articlePath)
 print(len(elements))
 articles = []
@@ -33,13 +33,13 @@ for article in articles:
     #driver = webdriver.Chrome(options=chrome_options)
     driver.get(article)
     #print(driver.page_source)
-    paragraphPath = "//article//p"
+    paragraphPath = "//div[contains(@class, 'itemBody')]//p"
     paragraphs = driver.find_elements(By.XPATH, paragraphPath)
     print(len(paragraphs))
     for p in paragraphs:
         try:
             article_text += p.get_attribute("textContent")
-            #print(p.get_attribute("textContent"))
+            print(p.get_attribute("textContent"))
         except:
             pass
 print(
