@@ -16,11 +16,11 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 driver = webdriver.Chrome(options=chrome_options)
 driver.implicitly_wait(10)
 
-country = "Romania"
-WEBSITE = "https://www.romania-insider.com/"
+country = "Azerbaijan"
+WEBSITE = "https://www.azernews.az/"
 driver.get(WEBSITE)
 #print(driver.page_source)
-articlePath = "//div[contains(@class, 'region-front-page-content-2')]"
+articlePath = "//div[contains(@class, 'main-news-single')]//h3//a | (//div[@class='row mb-4'])[2]//h3/a | (//div[@class='row mb-4'])[2]//ul/li/a"
 elements = driver.find_elements(By.XPATH, articlePath)
 print(len(elements))
 articles = []
@@ -33,7 +33,7 @@ for article in articles:
     #driver = webdriver.Chrome(options=chrome_options)
     driver.get(article)
     #print(driver.page_source)
-    paragraphPath = "//section[contains(@class, 'article__body')]//p"
+    paragraphPath = "//div[@class='article-content']//p"
     paragraphs = driver.find_elements(By.XPATH, paragraphPath)
     print(len(paragraphs))
     for p in paragraphs:
