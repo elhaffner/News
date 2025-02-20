@@ -6,19 +6,19 @@ from selenium.webdriver.common.by import By
 def getGeneralCountry(driver, website, articlePath, paragraphPath):
     driver.get(website)
     elements = driver.find_elements(By.XPATH, articlePath)
-    articles = []
+    articles = set()
     for element in elements:
-        articles.append(element.get_attribute("href"))
+        articles.add(element.get_attribute("href"))
 
     article_text = ""
     for article in articles:
-        driver.get(article)
-        paragraphs = driver.find_elements(By.XPATH, paragraphPath)
-        for p in paragraphs:
-            try:
+        try:
+            driver.get(article)
+            paragraphs = driver.find_elements(By.XPATH, paragraphPath)
+            for p in paragraphs:
                 article_text += p.get_attribute("textContent")
-            except:
-                pass
+        except:
+            pass
     return article_text
 
 

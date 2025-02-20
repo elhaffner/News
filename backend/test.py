@@ -16,32 +16,32 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 driver = webdriver.Chrome(options=chrome_options)
 driver.implicitly_wait(10)
 
-country = "Azerbaijan"
-WEBSITE = "https://www.azernews.az/"
+country = "Bhutan"
+WEBSITE = "https://kuenselonline.com/"
 driver.get(WEBSITE)
 #print(driver.page_source)
-articlePath = "//div[contains(@class, 'main-news-single')]//h3//a | (//div[@class='row mb-4'])[2]//h3/a | (//div[@class='row mb-4'])[2]//ul/li/a"
+articlePath = "//div[contains(@class, 'mt-10')]//div[contains(@class, 'card-info')]/a"
 elements = driver.find_elements(By.XPATH, articlePath)
 print(len(elements))
-articles = []
+articles = set()
 for element in elements:
-    articles.append(element.get_attribute("href"))
+    articles.add(element.get_attribute("href"))
     print(element.get_attribute("href"))
+
 
 article_text = ""
 for article in articles:
-    #driver = webdriver.Chrome(options=chrome_options)
-    driver.get(article)
-    #print(driver.page_source)
-    paragraphPath = "//div[@class='article-content']//p"
-    paragraphs = driver.find_elements(By.XPATH, paragraphPath)
-    print(len(paragraphs))
-    for p in paragraphs:
-        try:
+    try: 
+        driver.get(article)
+        #print(driver.page_source)
+        paragraphPath = "//div[@id='post-content']//p"
+        paragraphs = driver.find_elements(By.XPATH, paragraphPath)
+        print(len(paragraphs))
+        for p in paragraphs:
             article_text += p.get_attribute("textContent")
             #print(p.get_attribute("textContent"))
-        except:
-            pass
+    except:
+        pass
 print(
     '@app.route("/' + country + '")\n'
     "def " + country + "():\n"
@@ -50,3 +50,4 @@ print(
     '\tparagraphPath = "' + paragraphPath + '"\n'
     "\treturn summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))"
 )
+
