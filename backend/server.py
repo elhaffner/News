@@ -13,8 +13,10 @@ from countries.Denmark import getDenmark
 from countries.Ghana import getGhana
 from countries.Mali import getMali
 from countries.Mongolia import getMongolia
+from countries.Nicaragua import getNicaragua
 from countries.Nigeria import getNigeria
 from countries.Nepal import getNepal
+from countries.Philippines import getPhilippines
 from countries.Rwanda import getRwanda
 from countries.Saudi_Arabia import getSaudiArabia
 from countries.Turkey import getTurkey
@@ -55,6 +57,14 @@ def summarise(text):
     return response.text
 
 #Members API route
+
+@app.route("/Albania")
+def Albania():
+        website = "https://www.tiranatimes.com/"
+        articlePath = "//div[@class='block-content']//div[@class='article-content']//a"
+        paragraphPath = "//div[@class='column9']//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Algeria")
 def Algeria():
     return summarise(getAlgeria(driver=driver))
@@ -80,6 +90,13 @@ def Angola():
         paragraphPath = "//div[contains(@class, 'article-body')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Australia")
+def Australia():
+        website = "https://www.9news.com.au/national"
+        articlePath = "//div[@data-id='latest-feed']//article//h3/a"
+        paragraphPath = "//div[contains(@class, 'article__body')]//div[@class='block-content']"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Austria")
 def Austria():
         website = "https://www.oe24.at/"
@@ -99,6 +116,13 @@ def Bahrain():
         website = "https://www.newsofbahrain.com/"
         articlePath = "//div[contains(@class, 'bs-listing-modern-grid-listing-8')]//article//div[@class='content-container']//h2//a"
         paragraphPath = "//article[contains(@class, 'type-post')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Barbados")
+def Barbados():
+        website = "https://barbadostoday.bb/"
+        articlePath = "//div[contains(@class, 'penci-biggrid-inner')]//h3/a"
+        paragraphPath = "//div[contains(@class, 'entry-content')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Belarus")
@@ -143,6 +167,13 @@ def Bolivia():
 @app.route("/Botswana")
 def Botswana():
     return summarise(getGeneralCountry(driver=driver, website='https://guardiansun.co.bw/', articlePath="//article[@class='article-main']//h6//a | //div[@class='article']//h2//a", paragraphPath="//div[@class='single-content']"))
+
+@app.route("/Brazil")
+def Brazil():
+        website = "https://www1.folha.uol.com.br/internacional/en/"
+        articlePath = "(//div[@class='flex-cell'])[1]//div[@class='c-headline__content']/a"
+        paragraphPath = "//div[contains(@class, 'c-news__content')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Brunei")
 def Brunei():
@@ -257,6 +288,12 @@ def Djibouti():
     paragraphPath = "//div[contains(@class, 'td-post-content')]//p"
     return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Ecuador")
+def Ecuador():
+        website = "https://www.eluniverso.com/"
+        articlePath = "(//div[contains(@class, 'chain-section')])[4]//h2/a"
+        paragraphPath = "//section[contains(@class, 'article-body')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Egypt")
 def Egypt():
@@ -360,6 +397,13 @@ def Guinea_Bissau():
         paragraphPath = "//div[contains(@class, 'entry-content')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Guyana")
+def Guyana():
+        website = "https://www.kaieteurnewsonline.com/"
+        articlePath = "//div[@id='custom-recent-posts-grid-list-2']//div[@class='post-title']//a"
+        paragraphPath = "//div[contains(@class, 'type-post')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Honduras")
 def Honduras():
         website = "https://www.laprensa.hn/honduras"
@@ -381,6 +425,20 @@ def India():
         paragraphPath = "//div[@class='Art-exp_wr']//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Indonesia")
+def Indonesia():
+        website = "https://www.kompas.com/"
+        articlePath = "(//div[@id='mostLayout1']/div/a)[position() <= 5]"
+        paragraphPath = "//div[@class='read__content']//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Iran")
+def Iran():
+        website = "https://kayhan.ir/"
+        articlePath = "//div[contains(@class, 'linear_news')]//h2//a"
+        paragraphPath = "//div[contains(@class, 'body')]/div"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Ireland")
 def Ireland():
     website = "https://www.irishtimes.com/politics/"
@@ -400,6 +458,13 @@ def Italy():
         website = "https://www.ilsole24ore.com/sez/italia"
         articlePath = "//div[@class='col-lg-8']//li//h3//a"
         paragraphPath = "//div[@class='col-lg-10']//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Japan")
+def Japan():
+        website = "https://japannews.yomiuri.co.jp/"
+        articlePath = "//div[contains(@class, 'category_parts_a')]//ul/li/a"
+        paragraphPath = "//div[contains(@id, 'p-article-block')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Jordan")
@@ -437,11 +502,25 @@ def Kuwait():
         paragraphPath = "//p[@class='article-text']"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Laos")
+def Laos():
+        website = "https://laotiantimes.com/"
+        articlePath = "//div[@id='tdi_55']//h3/a"
+        paragraphPath = "//div[contains(@class, 'tdb_single_content')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Latvia")
 def Latvia():
         website = "https://www.diena.lv/"
         articlePath = "//section[contains(@class, 'articleblock__2-3')]//h4//a"
         paragraphPath = "//section[contains(@class, 'article__body')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Lebanon")
+def Lebanon():
+        website = "https://www.elsharkonline.com/"
+        articlePath = "//div[@class='column-1']//article//h2/a | //div[@class='column-2']//article//h2/a | //p[@class='title']/a"
+        paragraphPath = "//div[contains(@class, 'entry-content')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Lesotho")
@@ -464,6 +543,13 @@ def Libya():
     articlePath = "(//div[@class='pbs-content'])[1]//article//h4//a"
     paragraphPath = "//div[contains(@class, 'node__content')]/p"
     return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Luxembourg")
+def Luxembourg():
+        website = "https://luxtoday.lu/en"
+        articlePath = "//section[@class='MainPageView_section__44J9H']//a[@class='NewsCard_newsCard__fSvgA'] | //section[@class='MainPageView_section__44J9H']//div[@class='NewsSection_eventsList__KbOVq']/a"
+        paragraphPath = "//div[contains(@class, 'blockContentInfo')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Madagascar")
 def Madagascar():
@@ -550,6 +636,10 @@ def Namibia():
         paragraphPath = "//div[contains(@class, 'cmsmasters_post_content')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Nicaragua")
+def Nicaragua():
+       return summarise(getNicaragua())
+
 @app.route("/Niger")
 def Niger():
         website = "https://www.actuniger.com/"
@@ -565,11 +655,25 @@ def Nigeria():
 def Nepal():
     return summarise(getNepal(driver=driver))
 
+@app.route("/Norway")
+def Norway():
+        website = "https://www.newsinenglish.no/"
+        articlePath = "//div[@id='tdi_52']//h3/a | //div[@id='tdi_53']//h3/a"
+        paragraphPath = "//div[contains(@class, 'tdb-block-inner')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Oman")
 def Oman():
         website = "https://timesofoman.com/"
         articlePath = "(//div[@class='container mb-3'])[2]//h3//a"
         paragraphPath = "//div[@id='__content__']//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Palau")
+def Palau():
+        website = "https://islandtimes.org/"
+        articlePath = "(//article[contains(@class, 'category-top-stories')]//h2/a)[position() <= 10]"
+        paragraphPath = "//div[@class='entry-content']//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Palestine")
@@ -592,6 +696,13 @@ def Peru():
     articlePath = "//div[@id='noticiaDestacadas']//article//span[@class='card-title2']//a"
     paragraphPath = "//div[contains(@class, 'contenido')]//div"
     return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Philippines")
+def Philippines():
+        website = "https://mb.com.ph/"
+        articlePath = "//div[@class='mb-font-article-title']/a"
+        paragraphPath = "//div[contains(@class, 'custom-article-body mb-font-article-body')]//p"
+        return summarise(getPhilippines(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Poland")
 def Poland():
@@ -720,6 +831,13 @@ def South_Africa():
         paragraphPath = "//div[contains(@class, 'article-content')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
+@app.route("/Spain")
+def Spain():
+        website = "https://www.elmundo.es/espana.html"
+        articlePath = "//div[@class='ue-l-cg']//article//header//a"
+        paragraphPath = "//div[@class='ue-c-article__body']//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
 @app.route("/Sri Lanka")
 def Sri_Lanka():
     website = "https://lankanewsweb.net/archives/category/news/"
@@ -732,6 +850,13 @@ def Sudan():
         website = "https://www.sudanakhbar.com/"
         articlePath = "(//div[@class='main-box-inside']//article//h2//a)[position() <= 20]"
         paragraphPath = "//div[contains(@class, 'entry-content')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Suriname")
+def Suriname():
+        website = "https://www.surinametimes.com/binnenland"
+        articlePath = "//div[@class='article-grid_grid__0iFT4']/div/a"
+        paragraphPath = "//div[@class='article_content__filEj']//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Sweden")
@@ -821,6 +946,20 @@ def United_Kingdom():
         website = "https://www.bbc.co.uk/news/uk"
         articlePath = "//div[contains(@class, 'ssrcss-yawlqh-GridWrapper')]//div[@spacing='2']/a"
         paragraphPath = "//article//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Uruguay")
+def Uruguay():
+        website = "https://www.elpais.com.uy/"
+        articlePath = " (//div[@class='ListEpd']//div[@class='ListEpd-items']//div[@class='List1-2'])[position() <= 3]//h2/a | (//div[@class='ListEpd']//div[@class='PromoEpd']//h2/a)[1]"
+        paragraphPath = "//div[contains(@class, 'RichTextArticleBody')]//p"
+        return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
+
+@app.route("/Vanuatu")
+def Vanuatu():
+        website = "https://www.dailypost.vu/news/"
+        articlePath = "(//div[@id='tncms-block-1255588']//article//h3/a)[position() <= 10] | //div[@id='tncms-block-1255585']//article//h2/a"
+        paragraphPath = "//div[contains(@id, 'article-body')]//p"
         return summarise(getGeneralCountry(driver=driver, website=website, articlePath=articlePath, paragraphPath=paragraphPath))
 
 @app.route("/Vietnam")
