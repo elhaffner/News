@@ -16,11 +16,11 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 driver = webdriver.Chrome(options=chrome_options)
 driver.implicitly_wait(10)
 
-country = "Honduras"
-WEBSITE = "https://www.laprensa.hn/honduras"
+country = "Dominican Republic"
+WEBSITE = "https://listindiario.com/la-republica"
 driver.get(WEBSITE)
 #print(driver.page_source)
-articlePath = "//section[@class='noticias']//article//div[contains(@class, 'card-title')]/a"
+articlePath = "//div[@id='m70098-70097-70099']//article//h2/a"
 elements = driver.find_elements(By.XPATH, articlePath)
 print(len(elements))
 articles = set()
@@ -32,10 +32,9 @@ article_text = ""
 for article in articles:
     try: 
         driver = webdriver.Chrome(options=chrome_options)
-        driver.implicitly_wait(10)
         driver.get(article)
         #print(driver.page_source)
-        paragraphPath = "//div[contains(@class, 'entry-content')]//p"
+        paragraphPath = "//div[contains(@class, 'c-detail-content')]//p"
         paragraphs = driver.find_elements(By.XPATH, paragraphPath)
         print(len(paragraphs))
         for p in paragraphs:
