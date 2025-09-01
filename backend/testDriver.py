@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import google.generativeai as genai
+from bs4 import BeautifulSoup
+import re
 
 API_KEY = "AIzaSyAZ_y74Vwb453PU4VKuooxpwlhbB0uEL7o"
 genai.configure(api_key=API_KEY)
@@ -9,17 +11,46 @@ model = genai.GenerativeModel(
     'gemini-1.5-flash',
     system_instruction=[
         """
-        You are an article detection tool. Your job is to identify which links, from a given list of links, 
-        link directly to news articles. Once you have identified the links that link to news articles, print them
-        to the screen. Only print the links themselves and nothing else, with each link separated by a newline. Also, don't
-        print duplicates."
+        You are an expert article extractor. Given the html body for a website that contains a news article, I want you
+        to extract the text content of the main article on that site.  
         """
     ],
 )
 
 def summarise(text):
-    response = model.generate_content(text)
-    return response.text
+    return model.generate_content(text).text.strip()
+
+def remove_tags(html):
+    soup = BeautifulSoup(html, "html.parser")
+
+    #Remove style components
+
+    style_all = soup.find_all('style')
+    [style.decompose() for style in style_all]
+
+    script_all = soup.find_all('script')
+    [script.decompose() for script in script_all]
+
+    svg_all = soup.find_all('svg')
+    [svg.decompose() for svg in svg_all]
+
+    li_all = soup.find_all('li')
+    [li.decompose() for li in li_all]
+
+    img_all = soup.find_all('img')
+    [img.decompose() for img in img_all]
+
+    for tag in soup.find_all(True): 
+        tag.unwrap()
+
+    #for div in soup.find_all("div"):
+    #    div.unwrap()
+    
+    sp = str(soup)
+    return "\n".join([s for s in sp.split("\n") if s])
+    
+
+
 
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
@@ -29,15 +60,14 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 driver = webdriver.Chrome(options=chrome_options)
 
-driver.get("https://www.samoaobserver.ws/")
+driver.get("https://www.nbcnews.com/news/us-news/bullet-fragment-found-neck-10-year-old-weston-halsne-rcna228280")
 body_html = driver.find_element("tag name", "body").get_attribute("innerHTML")
-links = driver.find_elements("tag name", "a")
 
-prompt_text = ""
-for link in links:
-    html = link.get_attribute("href")
-    if html is not None:
-        prompt_text += html
-        prompt_text += "\n"
-print(summarise(prompt_text))
+
+# articles = driver.find_elements("tag name", "article")
+# txt = articles[0].get_attribute("innerHTML")
+# print(len(txt))
+print(len(body_html))
+res = remove_tags(body_html)
+print(len(res))
 

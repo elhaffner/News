@@ -13,10 +13,8 @@ class GetArticles:
             'gemini-1.5-flash',
             system_instruction=[
                 """
-                You are an article detection tool. Your job is to identify which links, from a given list of links, 
-                link directly to news articles. Once you have identified the links that link to news articles, print them
-                to the screen. Only print the links themselves and nothing else, with each link separated by a newline. Also, don't
-                print duplicates."
+                You are an expert article extractor. Given the html body for a website that contains a news article, I want you
+                to extract the text content of the main article on that site.  
                 """
             ],
         )
