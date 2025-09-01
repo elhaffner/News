@@ -85,6 +85,7 @@ function Map() {
         }
         console.log(clickedCountryName);
         setLeftPanel("0");
+        setNewsOutput(`Fetching news for ${clickedCountryName}...`)
 
         fetch(`https://restcountries.com/v3.1/name/${clickedCountryName}?fullText=true`).then(response => {
             if(!response.ok) {
