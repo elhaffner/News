@@ -5,7 +5,6 @@ import google.generativeai as genai
 
 
 class GetArticles:
-
     def __init__(self):
         self.API_KEY = "AIzaSyAZ_y74Vwb453PU4VKuooxpwlhbB0uEL7o"
         genai.configure(api_key=self.API_KEY)
@@ -15,7 +14,8 @@ class GetArticles:
                 """
                 You are an article detection tool. Your job is to identify which links, from a given list of links, 
                 link directly to news articles. Once you have identified the links that link to news articles, print them
-                to the screen. Only print the links themselves and nothing else, with each link separated by a newline. Also, don't
+                to the screen. The links might not all be in english, so you must be able to identify links in other languages as well. 
+                Only print the links themselves and nothing else, with each link separated by a newline. Also, don't
                 print duplicates."
                 """
             ],

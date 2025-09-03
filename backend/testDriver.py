@@ -12,7 +12,8 @@ model = genai.GenerativeModel(
     system_instruction=[
         """
         You are an expert article extractor. Given the html body for a website that contains a news article, I want you
-        to extract the text content of the main article on that site.  
+        to extract the text content of the main article on that site. These might not necessarily be in English, so you
+        will have to be able to detect articles in multiple languages. 
         """
     ],
 )
@@ -60,7 +61,7 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 driver = webdriver.Chrome(options=chrome_options)
 
-driver.get("https://www.nbcnews.com/news/us-news/bullet-fragment-found-neck-10-year-old-weston-halsne-rcna228280")
+driver.get("https://www.elpais.com.uy/informacion/policiales/policia-busca-a-un-hombre-que-entro-a-la-casa-de-su-expareja-y-a-la-fuerza-se-llevo-a-sus-dos-hijos-pequenos")
 body_html = driver.find_element("tag name", "body").get_attribute("innerHTML")
 
 
@@ -70,4 +71,10 @@ body_html = driver.find_element("tag name", "body").get_attribute("innerHTML")
 print(len(body_html))
 res = remove_tags(body_html)
 print(len(res))
+
+article_contents = model.generate_content(res).text.strip()
+print(article_contents)
+
+
+
 
